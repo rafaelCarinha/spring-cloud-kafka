@@ -2,6 +2,7 @@ package com.springcloud.kafka.kafkaaudit.controller;
 
 
 import com.springcloud.kafka.kafkaaudit.service.KafkaAuditService;
+import com.springcloud.kafka.kafkaaudit.service.ServiceTest;
 import com.springcloud.kafka.kafkaaudit.stream.Audit;
 import com.springcloud.kafka.kafkaaudit.stream.Audits;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ public class AuditController {
 
     private final KafkaAuditService kafkaAuditService;
 
+    ServiceTest serviceTest;
+
     @GetMapping("/audit")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void audit(@RequestParam("message") String message) {
@@ -29,11 +32,13 @@ public class AuditController {
 
         testAroundAspect();
 
-        kafkaAuditService.sendAudit(audit);
+        //kafkaAuditService.sendAudit(audit);
     }
 
-    @Audits
+
     public void testAroundAspect() {
+
+        serviceTest.log();
         log.info("testAroundAspect");
 
     }

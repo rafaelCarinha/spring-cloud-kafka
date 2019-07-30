@@ -7,6 +7,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +18,13 @@ import java.util.concurrent.TimeUnit;
 
 @Aspect
 @Component
-@Configuration
-@ComponentScan(basePackages = {"com.springcloud.kafka.kafkaaudit.aop", "com.springcloud.kafka.kafkaaudit.stream"})
 @Slf4j
 public class AuditAspect {
 
-    @Around(value = "com.springcloud.kafka.kafkaaudit.aop.SystemArchitecture.anyMethodAnnotatedWithAudits()")
+    @Pointcut(" (@annotation(com.springcloud.kafka.kafkaaudit.stream.Audits))")
+    private void anyMethodAnnotatedWithAudits() { }
+
+    @Around(value = "anyMethodAnnotatedWithAudits()")
     public Object measureMethodExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
 
         Object result = pjp.proceed();
