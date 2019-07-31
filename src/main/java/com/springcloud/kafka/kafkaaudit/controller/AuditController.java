@@ -1,10 +1,7 @@
 package com.springcloud.kafka.kafkaaudit.controller;
 
 
-import com.springcloud.kafka.kafkaaudit.service.KafkaAuditService;
 import com.springcloud.kafka.kafkaaudit.service.ServiceTest;
-import com.springcloud.kafka.kafkaaudit.stream.Audit;
-import com.springcloud.kafka.kafkaaudit.stream.Audits;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,10 +20,6 @@ public class AuditController {
     @GetMapping("/audit")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void audit(@RequestParam("message") String message) {
-        Audit audit = Audit.builder()
-                .message(message)
-                .timestamp(System.currentTimeMillis())
-                .build();
 
         serviceTest.log(message);
         log.info("testAroundAspect");
