@@ -13,6 +13,9 @@ public class KafkaAuditListener {
 
     @StreamListener(AuditStreams.INPUT)
     public void handleAudit(@Payload Audit audit) {
+
         log.info("Received audit: {}", audit);
+
+        //Send to Database
     }
 }
