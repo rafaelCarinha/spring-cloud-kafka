@@ -18,7 +18,7 @@ public class KafkaAuditService {
     private final AuditStreams auditStreams;
 
     public void sendAudit(final Audit audit) {
-        log.info("Sending audit {}", audit);
+        log.info("Sending audit: {}", audit);
 
         MessageChannel messageChannel = auditStreams.outboundAudit();
         messageChannel.send(MessageBuilder

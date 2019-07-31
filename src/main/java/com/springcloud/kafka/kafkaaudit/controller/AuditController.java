@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuditController {
 
-    private final KafkaAuditService kafkaAuditService;
-
     ServiceTest serviceTest;
 
     @GetMapping("/audit")
@@ -30,15 +28,7 @@ public class AuditController {
                 .timestamp(System.currentTimeMillis())
                 .build();
 
-        testAroundAspect();
-
-        //kafkaAuditService.sendAudit(audit);
-    }
-
-
-    public void testAroundAspect() {
-
-        serviceTest.log();
+        serviceTest.log(message);
         log.info("testAroundAspect");
 
     }

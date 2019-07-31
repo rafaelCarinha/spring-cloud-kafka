@@ -1,6 +1,8 @@
 **Spring Cloud - Kafka**
 
-Build an Audit configuration, sending messages to Kafka topics.
+Build an Audit configuration, sending messages to Kafka topics.  
+
+Listen to a topic, and process the data as desired.  
 
 SpringCloud, Kafka, AOP, Lombok, SpringBoot.  
 

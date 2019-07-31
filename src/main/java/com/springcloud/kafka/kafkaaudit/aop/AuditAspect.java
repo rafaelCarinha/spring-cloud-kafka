@@ -1,5 +1,6 @@
 package com.springcloud.kafka.kafkaaudit.aop;
 
+import com.springcloud.kafka.kafkaaudit.service.KafkaAuditService;
 import com.springcloud.kafka.kafkaaudit.stream.Audit;
 import com.springcloud.kafka.kafkaaudit.stream.AuditStreams;
 import com.springcloud.kafka.kafkaaudit.stream.Audits;
@@ -27,6 +28,8 @@ import java.lang.reflect.Method;
 @AllArgsConstructor
 public class AuditAspect {
 
+    private final KafkaAuditService kafkaAuditService;
+
     private final AuditStreams auditStreams;
 
     @Pointcut(" (@annotation(com.springcloud.kafka.kafkaaudit.stream.Audits))")
@@ -35,19 +38,19 @@ public class AuditAspect {
     @Around(value = "anyMethodAnnotatedWithAudits()")
     public Object measureMethodExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
 
-        Audits audit = getAudit(pjp);
+        Audits audits = getAudit(pjp);
 
         Object result = pjp.proceed();
 
-        log.info("Sending audit {}", audit);
+        Audit audit = Audit.builder()
+                .timestamp(System.currentTimeMillis())
+                .message(audits.message())
+                .id(audits.id())
+                .build();
 
-        MessageChannel messageChannel = auditStreams.outboundAudit();
-        messageChannel.send(MessageBuilder
-                .withPayload(audit)
-                .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
-                .build());
+        kafkaAuditService.sendAudit(audit);
 
-        log.info("Success Sending audit {}", audit);
+        log.info("Success Sending audit: {}", audit);
 
         return result;
     }

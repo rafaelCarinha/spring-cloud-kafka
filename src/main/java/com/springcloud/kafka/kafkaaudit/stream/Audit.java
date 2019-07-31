@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Audit {
 
+    private String id;
     private long timestamp;
     private String message;
 

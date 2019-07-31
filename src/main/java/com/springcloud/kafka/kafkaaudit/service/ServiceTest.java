@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ServiceTest {
 
-    @Audits(id = "1")
-    public void log() {
-        log.info("Log something");
+    @Audits(id = "1", message = "Log Something")
+    public void log(String message) {
+        log.info("Message from Controller: {}", message);
     }
 }
