@@ -25,4 +25,9 @@ kafka-console-producer --broker-list localhost:9092 --topic audit
 Consumer console:
 kafka-console-consumer --bootstrap-server localhost:9092 --topic audit --from-beginning  
 
+**How to test:**
+
+At your favorite browser:  
+http://localhost:8080/audit?message=AuditMessage
+
 
